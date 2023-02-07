@@ -33,7 +33,10 @@ open class Networking {
   // Override Alamofire's default session manager here to configure things like timeouts.
   open var sessionManager: Alamofire.Session = {
     let configuration = URLSessionConfiguration.default
-    return Alamofire.Session(configuration: configuration)
+    var retryableHTTPMethods = RetryPolicy.defaultRetryableHTTPMethods
+    retryableHTTPMethods.insert(.post)
+    let interceptor = RetryPolicy(retryableHTTPMethods: retryableHTTPMethods)
+    return Alamofire.Session(configuration: configuration, interceptor: interceptor)
   }()
   
   required public init(baseURLString: String? = nil, authenticator: Authenticator?) {
