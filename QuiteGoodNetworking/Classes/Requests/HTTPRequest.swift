@@ -87,11 +87,13 @@ open class HTTPRequest: ConcurrentOperation {
     }
     
     guard let url = buildURL() else {
-      fatalError("No URL when attempting to perform an HTTP request.")
+      assertionFailure("No URL when attempting to perform an HTTP request.")
+      return
     }
     
     guard let sessionManager = sessionManager else {
-      fatalError("Session manager is nil when trying to perform an HTTP request.")
+      assertionFailure("Session manager is nil when trying to perform an HTTP request.")
+      return
     }
     
     var request: DataRequest?
@@ -225,7 +227,7 @@ open class HTTPRequest: ConcurrentOperation {
       urlString.append(path)
     }
     
-    if let queryParametersString = buildQueryStringParameters()?.queryStringParametersString(), queryParametersString.count > 0 {
+    if let queryParametersString = buildQueryStringParameters()?.queryStringParametersString(), !queryParametersString.isEmpty {
       urlString.append("?\(queryParametersString)")
     }
     
