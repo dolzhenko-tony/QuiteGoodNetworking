@@ -27,7 +27,8 @@ open class HTTPRequest: ConcurrentOperation {
   
   // Details about the request.
   open var httpMethod = HTTPMethod.get
-  open var baseURLString: String?
+  open var scheme: String?
+  open var host: String?
   open var path: String? {
     // Sometimes paths come in like /somePath?someParam=someValue. This creates problems if we try and append
     // another query string on the end so we pull them off and convert them.
@@ -216,23 +217,17 @@ open class HTTPRequest: ConcurrentOperation {
   
   // Build a URL string from the base url, path and query parameters.
   open func buildURL() -> URL? {
-    
-    var urlString = ""
-    
-    if let baseURLString = baseURLString {
-      urlString.append(baseURLString)
-    }
-    
+
+    var components = URLComponents()
+    components.scheme = scheme
+    components.host = host
     if let path = path {
-      urlString.append(path)
+      components.path = path
     }
-    
-    if let queryParametersString = buildQueryStringParameters()?.queryStringParametersString(), !queryParametersString.isEmpty {
-      urlString.append("?\(queryParametersString)")
+    components.queryItems = queryStringParameters.map { key, value in
+      URLQueryItem(name: key, value: "\(value)")
     }
-    
-    return URL(string: urlString)
-    
+    return components.url
   }
   
   open override func isEqual(_ object: Any?) -> Bool {
@@ -251,7 +246,8 @@ extension HTTPRequest: NSCopying {
     
     copiedHTTPRequest.sessionManager = sessionManager
     copiedHTTPRequest.httpMethod = httpMethod
-    copiedHTTPRequest.baseURLString = baseURLString
+    copiedHTTPRequest.scheme = scheme
+    copiedHTTPRequest.host = host
     copiedHTTPRequest.path = path
     copiedHTTPRequest.encodingMethod = encodingMethod
     copiedHTTPRequest.acceptableContentTypes = acceptableContentTypes

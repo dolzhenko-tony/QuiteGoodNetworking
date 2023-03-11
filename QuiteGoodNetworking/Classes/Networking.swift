@@ -9,7 +9,8 @@ open class Networking {
   /**
    This string will be prepended to all URLs, if present.
    */
-  open var baseURLString: String?
+  open var scheme: String?
+  open var host: String?
   
   /**
    All HTTP endpoint requests and JSON encoding for those requests execute
@@ -39,13 +40,14 @@ open class Networking {
     return Alamofire.Session(configuration: configuration, interceptor: interceptor)
   }()
   
-  required public init(baseURLString: String? = nil, authenticator: Authenticator?) {
-    self.baseURLString = baseURLString
+  required public init(scheme: String? = nil, host: String? = nil, authenticator: Authenticator?) {
+    self.scheme = scheme
+    self.host = host
     self.authenticator = authenticator
   }
   
   convenience public init() {
-    self.init(baseURLString: nil, authenticator: nil)
+    self.init(scheme: nil, host: nil, authenticator: nil)
   }
   
   // Cancels all requests in the operation queue, but not response processor operations.
@@ -92,11 +94,12 @@ open class Networking {
   
   // Overridable method to prepend a base URL to a given endpoint.
   open func addBaseURLString(httpRequest: HTTPRequest) {
-    guard httpRequest.baseURLString == nil else {
+    guard httpRequest.scheme == nil, httpRequest.host == nil else {
       return
     }
     
-    httpRequest.baseURLString = baseURLString
+    httpRequest.scheme = scheme
+    httpRequest.host = host
   }
   
 }
