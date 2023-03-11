@@ -224,8 +224,11 @@ open class HTTPRequest: ConcurrentOperation {
     if let path = path {
       components.path = path
     }
-    components.queryItems = queryStringParameters.map { key, value in
+    let queryItems = queryStringParameters.map { key, value in
       URLQueryItem(name: key, value: "\(value)")
+    }
+    if !queryItems.isEmpty {
+      components.queryItems = queryItems
     }
     return components.url
   }
