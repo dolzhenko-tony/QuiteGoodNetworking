@@ -11,6 +11,7 @@ open class Networking {
    */
   open var scheme: String?
   open var host: String?
+  open var port: Int?
   
   /**
    All HTTP endpoint requests and JSON encoding for those requests execute
@@ -100,6 +101,7 @@ open class Networking {
     
     httpRequest.scheme = scheme
     httpRequest.host = host
+    httpRequest.port = port
   }
   
 }

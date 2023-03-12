@@ -29,6 +29,7 @@ open class HTTPRequest: ConcurrentOperation {
   open var httpMethod = HTTPMethod.get
   open var scheme: String?
   open var host: String?
+  open var port: Int?
   open var path: String? {
     // Sometimes paths come in like /somePath?someParam=someValue. This creates problems if we try and append
     // another query string on the end so we pull them off and convert them.
@@ -221,7 +222,10 @@ open class HTTPRequest: ConcurrentOperation {
     var components = URLComponents()
     components.scheme = scheme
     components.host = host
-    if let path = path {
+    if let port {
+      components.port = port
+    }
+    if let path {
       components.path = path
     }
     let queryItems = queryStringParameters.map { key, value in
