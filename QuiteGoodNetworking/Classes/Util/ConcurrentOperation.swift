@@ -79,7 +79,7 @@ open class ConcurrentOperation : Operation {
         
     }
     
-  @available(swift, deprecated: 1.0, message: "ConcurrentOperation never calls completionBlock, even though it is a property of NSOperation") override open var completionBlock: (() -> Void)? {
+  @available(swift, deprecated: 1.0, message: "ConcurrentOperation never calls completionBlock, even though it is a property of NSOperation") override open var completionBlock: (@Sendable () -> Void)? {
     set {
       assert(newValue == nil, "We won't ever use this handler")
     }
