@@ -87,7 +87,7 @@ open class Networking {
     
   }
   
-  public func prepareRequest(_ httpRequest: HTTPRequest) {
+  open func prepareRequest(_ httpRequest: HTTPRequest) {
     addBaseURLString(httpRequest: httpRequest)
     httpRequest.networking = self
     httpRequest.sessionManager = sessionManager

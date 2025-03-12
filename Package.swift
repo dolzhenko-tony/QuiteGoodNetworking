@@ -17,7 +17,7 @@ let package = Package(
             name: "QuiteGoodNetworking",
             targets: ["QuiteGoodNetworking"]),
     ],
-    dependencies: [.package(url: "https://github.com/Alamofire/Alamofire.git", .exact("5.9.0"))],
+    dependencies: [.package(url: "https://github.com/Alamofire/Alamofire.git", .exact("5.10.2"))],
     targets: [.target(name: "QuiteGoodNetworking",
                       dependencies: ["Alamofire"],
                       path: "QuiteGoodNetworking/Classes",
