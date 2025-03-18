@@ -103,6 +103,7 @@ public protocol DecodableClassFamily : Decodable {
 
 public enum Discriminator : String, CodingKey {
     case object
+    case type
 }
 
 public extension KeyedDecodingContainer {
